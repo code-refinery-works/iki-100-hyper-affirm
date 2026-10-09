@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>息してるだけで100点 | IKI-100</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<canvas id="confetti-canvas"></canvas>
+<canvas id="cert-canvas" width="800" height="560"></canvas>
+<div id="toast"></div>
+
+<header>
+  <div class="header-left">
+    <h1>🌟 息してるだけで100点</h1>
+    <div class="subtitle">IKI-100 ｜ あなたの存在が地球の奇跡</div>
+  </div>
+  <div class="header-right">
+    <div class="toku-badge">徳 <span id="toku-count">0</span>pt</div>
+    <button id="dark-toggle" title="ダークモード切り替え">🌙</button>
+  </div>
+</header>
+
+<main>
+
+  <!-- KPI Strip -->
+  <div class="kpi-strip">
+    <div class="kpi-item">
+      <div class="kpi-num" id="kpi1">0</div>
+      <div class="kpi-desc">今日の称賛回数</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-num">∞</div>
+      <div class="kpi-desc">あなたの価値<br>（測定不能）</div>
+    </div>
+    <div class="kpi-item">
+      <div class="kpi-num" id="kpi3">99.999%</div>
+      <div class="kpi-desc">稼働率SLA<br>達成中</div>
+    </div>
+  </div>
+
+  <!-- Sound Toggle -->
+  <div class="sound-toggle-wrap">
+    <button id="sound-toggle">🔇 音オフ中（タップで音ON）</button>
+  </div>
+
+  <!-- Emergency Button -->
+  <div class="emergency-section">
+    <div class="emergency-label">⚡ EMERGENCY BREATH — F-03</div>
+    <h2>入力すら面倒なあなたへ<br>ボタン1個で無限肯定</h2>
+    <button id="emergency-btn">🫁 今、息してる！</button>
+  </div>
+
+  <div class="divider">✨ または今日の偉業を詳しく申告する ✨</div>
+
+  <!-- Mode Select -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🎭</span> STEP 1：称賛モードを選べ</div>
+    <div class="mode-grid">
+      <div>
+        <input type="radio" name="mode" id="mode-seibo" class="mode-option" value="seibo" checked>
+        <label for="mode-seibo" class="mode-label">
+          <span class="mode-icon">👼</span>
+          <span class="mode-name">聖母<br>モード</span>
+        </label>
+      </div>
+      <div>
+        <input type="radio" name="mode" id="mode-netsketsu" class="mode-option" value="netsketsu">
+        <label for="mode-netsketsu" class="mode-label">
+          <span class="mode-icon">🔥</span>
+          <span class="mode-name">熱血監督<br>モード</span>
+        </label>
+      </div>
+      <div>
+        <input type="radio" name="mode" id="mode-shinwa" class="mode-option" value="shinwa">
+        <label for="mode-shinwa" class="mode-label">
+          <span class="mode-icon">⚡</span>
+          <span class="mode-name">古代神話<br>モード</span>
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <!-- Action Select -->
+  <div class="card">
+    <div class="card-title"><span class="icon">🏆</span> STEP 2：今日の大偉業を申告せよ</div>
+    <select id="action-select">
+      <option value="">── クイック選択 ──</option>
+      <option value="朝、目が開いた">朝、目が開いた</option>
+      <option value="布団から上半身だけ出た">布団から上半身だけ出た</option>
+      <option value="Uber Eatsの配達員に小声で『あざす』と言えた">Uber Eatsの配達員に小声で『あざす』と言えた</option>
+      <option value="やろうと思ってたことを華麗に先送りした">やろうと思ってたことを華麗に先送りした</option>
+      <option value="水を飲んだ">水を飲んだ</option>
+      <option value="14時間寝た">14時間寝た</option>
+      <option value="ポテチを1袋完食した">ポテチを1袋完食した</option>
+      <option value="お風呂に入ろうと思った（実行は明日）">お風呂に入ろうと思った（実行は明日）</option>
+      <option value="脱いだ服の山を見ないふりした">脱いだ服の山を見ないふりした</option>
+      <option value="スマホを充電した">スマホを充電した</option>
+    </select>
+    <div style="text-align:center;color:var(--text2);font-size:0.78rem;margin:6px 0 10px;font-weight:600;">── または自由に入力 ──</div>
+    <textarea id="custom-input" rows="3" maxlength="100" placeholder="例：シャワーを浴びた　　布団から出た　　存在した"></textarea>
+    <div class="char-count"><span id="char-count-num">0</span> / 100文字</div>
+  </div>
+
+  <!-- Submit -->
+<div class="card" style="text-align:center;">
+    <button id="submit-btn" class="submit-btn">🚀 全宇宙に称賛を申請する</button>
+  </div>
+
+  <!-- Result -->
+  <div id="result-area" class="result-area" style="display:none;">
+    <div class="result-badge">🏅 認定証</div>
+    <div id="result-text" class="result-text"></div>
+    <div id="toku-display" class="toku-display"></div>
+    <div id="certificate-wrap">
+      <div id="certificate" class="certificate">
+        <div class="cert-header">🌟 表彰状 🌟</div>
+        <div class="cert-body" id="cert-body"></div>
+        <div class="cert-footer">IKI-100認定機構　全人類甘やかし委員会</div>
+      </div>
+    </div>
+    <button id="share-btn" class="share-btn">🐦 Xでシェアする</button>
+    <button id="reset-btn" class="reset-btn">🔄 もう一回褒められる</button>
+  </div>
+
+  <!-- Canvas for confetti -->
+  <canvas id="confetti-canvas"></canvas>
+
+</div><!-- /.container -->
+
+  <script src="js/app.js"></script>
+
+</body>
+</html>
